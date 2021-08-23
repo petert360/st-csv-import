@@ -27,6 +27,31 @@ exports.parse = (req, res, next) => {
     .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
 };
 
+
+exports.parse2 = (file) => {
+  const readableStream = createReadStream(
+    path.resolve(__dirname, '..', '..', 'uploads', file),
+    { encoding: 'utf8' }
+  );
+
+  csv
+    .parseStream(readableStream, { headers: true })
+    .on('error', error => console.error(error))
+    .on('data', data =>
+      service
+        .parse(data)
+        .then(result => {
+          //res.status(201);
+          // res.json(result);
+          console.log(result);
+        })
+        .catch(err => console.error(err))
+    )
+    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+};
+
+
+
 exports.upload = (req, res, next) => {
   return res.status(201);
   res.send('done');

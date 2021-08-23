@@ -4,6 +4,8 @@ const app = express();
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
+const controller = require('./controllers/upload/controller');
+
 const multerConfig = require('./multerConfig')
 const upload = multerConfig.setup();
 
@@ -14,6 +16,7 @@ const uploadHandler = (req, res) => {
       res.status(400);
       res.send(err);
     } else {
+      controller.parse2(req.file.filename);
       res.send(req.file);
     }
   });

@@ -15,7 +15,7 @@ module.exports.setup = (res, req, next) => {
 
   const upload = multer({
     storage: storage,
-    limits: { fileSize: 80 },
+    limits: { fileSize: 80000 },
   })
 
   return upload.single('csv');
